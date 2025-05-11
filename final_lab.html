@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Product App</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="product">
+            <div class="product-image">
+                <img :src="image" :alt="altText" />
+            </div>
+            <div class="product-info">
+                <h1>{{ title }}</h1>
+                <p>{{ description }}</p>
+
+                <p><span v-if="onSale" class="sale">Розпродаж!</span></p>
+                <p>{{ sale }}</p>
+
+                <p v-if="inStock">В наявності</p>
+                <p v-else-if="selectedVariant.inventory > 0">Майже розпродано!</p>
+                <p v-else>Немає на складі</p>
+
+                <h3>Склад</h3>
+                <ul>
+                    <li v-for="detail in details" :key="detail">{{ detail }}</li>
+                </ul>
+
+                <h3>Колір</h3>
+                <div class="color-boxes">
+                    <div v-for="(variant, index) in variants" :key="variant.id" class="color-box"
+                        :style="{ backgroundColor: variant.color }" @click="updateVariant(index)">
+                    </div>
+                </div>
+
+                <h3>Оберіть розмір</h3>
+                <select v-model="selectedSize">
+                    <option v-for="size in sizes" :key="size" :value="size">{{ size }}</option>
+                </select>
+                <p>Обраний розмір: {{ selectedSize }}</p>
+
+                <button @click="addToCart" :disabled="!inStock">
+                    Додати у кошик
+                </button>
+
+                <p>Товарів у кошику: {{ cart }}</p>
+
+                <a :href="link" target="_blank">Більше подібних продуктів</a>
+            </div>
+        </div>
+    </div>
+    <script src="final_main.js"></script>
+</body>
+
+</html>
